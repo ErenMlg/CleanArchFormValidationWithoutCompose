@@ -5,11 +5,12 @@ import java.util.regex.Pattern
 
 class ValidatePassword {
 
+    //Set the password use case rules
     fun execute(password: String): ValidationResult {
         if (password.length < 8) {
             return ValidationResult(
                 successful = false,
-                errorMessage = "Şifre 8 haneden küçük olamaz"
+                errorMessage = "Password can not lower 8 letter"
             )
         }
         val constainsLettersAndDigit =
@@ -17,7 +18,7 @@ class ValidatePassword {
         if (!constainsLettersAndDigit) {
             return ValidationResult(
                 successful = false,
-                errorMessage = "Şifre en az bir rakam ve bir harften oluşmalıdır"
+                errorMessage = "Password need contain at least one number and one letter"
             )
         }
         return ValidationResult(

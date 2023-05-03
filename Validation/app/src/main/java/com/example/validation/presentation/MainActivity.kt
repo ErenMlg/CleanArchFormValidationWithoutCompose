@@ -24,37 +24,40 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        // Check the in state variables
         lifecycleScope.launch {
             viewModel.state.collect {
-                binding.textInputLayout.isErrorEnabled = it.emailError != null
-                binding.textInputLayout.error = it.emailError
-                binding.textInputLayout2.isErrorEnabled = it.passwordError != null
-                binding.textInputLayout2.error = it.passwordError
-                binding.textInputLayout3.isErrorEnabled = it.passwordRepeatError != null
-                binding.textInputLayout3.error = it.passwordRepeatError
+                binding.emailLayout.isErrorEnabled = it.emailError != null
+                binding.emailLayout.error = it.emailError
+                binding.passwordLayout.isErrorEnabled = it.passwordError != null
+                binding.passwordLayout.error = it.passwordError
+                binding.passwordRepeatLayout.isErrorEnabled = it.passwordRepeatError != null
+                binding.passwordRepeatLayout.error = it.passwordRepeatError
                 binding.terms.error = it.termsError
             }
         }
+        //When change email send to state
         binding.email.doOnTextChanged { text, _, _, _ ->
             viewModel.onEvent(RegistrationFormEvent.EmailChanged(text.toString()))
         }
-
-        binding.sifre.doOnTextChanged { text, _, _, _ ->
+        //When change password send to state
+        binding.password.doOnTextChanged { text, _, _, _ ->
             viewModel.onEvent(RegistrationFormEvent.PasswordChanged(text.toString()))
         }
-
-        binding.sifreTekrar.doOnTextChanged { text, _, _, _ ->
+        //When change passwordRepeat send to state
+        binding.passwordRepeat.doOnTextChanged { text, _, _, _ ->
             viewModel.onEvent(RegistrationFormEvent.RepeatedPasswordChanged(text.toString()))
         }
-
+        //When change terms send to state
         binding.terms.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onEvent(RegistrationFormEvent.AcceptedTerms(isChecked))
         }
-
+        //When change button send to state
         binding.button.setOnClickListener {
             viewModel.onEvent(RegistrationFormEvent.Submit)
         }
 
+        //Listen the events if validation success show the toast message
         lifecycleScope.launch {
             viewModel.validationEvent.collect { event ->
                 when (event) {

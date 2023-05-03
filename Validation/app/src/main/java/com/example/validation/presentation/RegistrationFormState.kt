@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
+// Set the state took inputs from to form
 data class RegistrationFormState(
     var email: String = "",
     val emailError: String? = null,
