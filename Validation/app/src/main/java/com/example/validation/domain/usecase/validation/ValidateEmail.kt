@@ -1,12 +1,11 @@
-package com.example.validation.domain.usecase
+package com.example.validation.domain.usecase.validation
 
 import android.util.Patterns
-import java.util.regex.Pattern
 
 class ValidateEmail {
 
     //Set the email use case rules
-    fun execute(email: String): ValidationResult {
+    operator fun invoke(email: String): ValidationResult {
         if (email.isBlank()) {
             return ValidationResult(
                 successful = false,

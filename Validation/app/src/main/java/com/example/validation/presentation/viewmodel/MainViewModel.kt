@@ -1,11 +1,13 @@
-package com.example.validation.presentation
+package com.example.validation.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.validation.domain.usecase.ValidateEmail
-import com.example.validation.domain.usecase.ValidatePassword
-import com.example.validation.domain.usecase.ValidateRepeatedPassword
-import com.example.validation.domain.usecase.ValidateTerms
+import com.example.validation.domain.usecase.validation.ValidateEmail
+import com.example.validation.domain.usecase.validation.ValidatePassword
+import com.example.validation.domain.usecase.validation.ValidateRepeatedPassword
+import com.example.validation.domain.usecase.validation.ValidateTerms
+import com.example.validation.common.RegistrationFormEvent
+import com.example.validation.common.RegistrationFormState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -53,11 +55,11 @@ class MainViewModel(
 
     private fun submitData() {
         // when button pressed check the inputs
-        val emailResult = validateEmail.execute(state.value.email)
-        val passwordResult = validatePassword.execute(state.value.password)
+        val emailResult = validateEmail(state.value.email)
+        val passwordResult = validatePassword(state.value.password)
         val repeatedPasswordResult =
-            validateRepeatedPassword.execute(state.value.password, state.value.passwordRepeat)
-        val termsResult = validateTerms.execute(state.value.acceptedTerms)
+            validateRepeatedPassword(state.value.password, state.value.passwordRepeat)
+        val termsResult = validateTerms(state.value.acceptedTerms)
 
         //if we take error send the ui
         val hasError = listOf(
@@ -71,16 +73,18 @@ class MainViewModel(
             termsError = termsResult.errorMessage
         )
 
-        if (hasError){return}
+        if (hasError) {
+            return
+        }
 
         // if we cant take error send to ui success
         viewModelScope.launch {
-            _validationEventChannel.send(ValidationEvent.Sucsess)
+            _validationEventChannel.send(ValidationEvent.Success)
         }
     }
 
     sealed class ValidationEvent {
-        object Sucsess : ValidationEvent()
+        object Success : ValidationEvent()
     }
 
 }

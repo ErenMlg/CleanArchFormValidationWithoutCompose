@@ -1,12 +1,9 @@
-package com.example.validation.domain.usecase
-
-import android.util.Patterns
-import java.util.regex.Pattern
+package com.example.validation.domain.usecase.validation
 
 class ValidatePassword {
 
     //Set the password use case rules
-    fun execute(password: String): ValidationResult {
+    operator fun invoke(password: String): ValidationResult {
         if (password.length < 8) {
             return ValidationResult(
                 successful = false,

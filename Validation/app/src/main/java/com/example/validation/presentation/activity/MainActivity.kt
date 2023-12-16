@@ -1,18 +1,13 @@
-package com.example.validation.presentation
+package com.example.validation.presentation.activity
 
-import android.content.Intent
-import android.os.Binder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
-import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
-import com.example.validation.R
 import com.example.validation.databinding.ActivityMainBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.collect
+import com.example.validation.presentation.viewmodel.MainViewModel
+import com.example.validation.common.RegistrationFormEvent
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -61,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel.validationEvent.collect { event ->
                 when (event) {
-                    is MainViewModel.ValidationEvent.Sucsess -> {
+                    is MainViewModel.ValidationEvent.Success -> {
                         Toast.makeText(
                             this@MainActivity,
                             "Registration successful!",

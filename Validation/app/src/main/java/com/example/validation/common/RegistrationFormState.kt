@@ -1,4 +1,4 @@
-package com.example.validation.presentation
+package com.example.validation.common
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
